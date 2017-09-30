@@ -16,12 +16,14 @@ namespace BuscasAspirador
 {
     class Agente
     {
-        bool limpo;
-
+        bool limpo { get; set; }
+        bool ativo { get; set; }
         int[] local = new int[1]; // 0 = esquerda, 1 direita;
         ArrayList log = new ArrayList();
-        bool ativo;
         
+
+
+
         //contrutor
         public Agente()
         {
@@ -32,8 +34,9 @@ namespace BuscasAspirador
             return;
         }
 
-
+        
         public void Ativa()
+
         {
             this.ativo = true;
             return;
