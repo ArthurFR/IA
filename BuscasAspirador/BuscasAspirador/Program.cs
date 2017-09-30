@@ -7,6 +7,8 @@ namespace BuscasAspirador
 	{
 		public static void Main(string[] args)
 		{
+            Agente agente = new Agente();
+            
 			Console.WriteLine("Hello World!teste_Leo");
 		}
 	}
