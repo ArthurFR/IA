@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+
+
 /*
  idéia, vetor de state..
 1-(sujo)/sujo
@@ -14,37 +14,68 @@ using System.Threading.Tasks;
 
 namespace BuscasAspirador
 {
-   class Agente
+    class Agente
     {
+        bool limpo;
+
+        int[] local = new int[1]; // 0 = esquerda, 1 direita;
         ArrayList log = new ArrayList();
         bool ativo;
-    }
+        
+        //contrutor
+        public Agente()
+        {
+            this.limpo = false;
+            local[0] = 1;
+            local[1] = 0;
+            ativo = true;
+            return;
+        }
 
-    //constructor;
-    public void Agente()
-    {
-        return;
-    }
 
-    public void MoverEsquerda()
-    {
+        public void Ativa()
+        {
+            this.ativo = true;
+            return;
+        }
 
-        return;
-    }
+        public void Desativa()
+        {
+            this.ativo = false;
+            return;
+        }
 
-    public void MoverDireita()
-    {
 
-        return;
-    }
-    public void Limpar()
-    {
 
-        return;
-    }
-    public void Verificar()
-    {
+        public void MoverEsquerda()
+        {
+            if (this.local[0] == 0)
+            {
+                this.local[0] = 1;
+                this.local[1] = 0;
+            }
+            return;
+        }
 
-        return;
+        public void MoverDireita()
+        {
+            if (this.local[1] == 0)
+            {
+                this.local[1] = 1;
+                this.local[0] = 0;
+            }
+            return;
+        }
+
+        public void Limpar()
+        {
+            this.limpo = true;
+            return;
+        }
+        public bool Verificar()
+        {
+            return this.limpo;
+        }
+
     }
 }
