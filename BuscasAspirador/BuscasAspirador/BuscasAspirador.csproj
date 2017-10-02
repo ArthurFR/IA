@@ -36,6 +36,7 @@
     <Compile Include="Busca_A_Star.cs" />
     <Compile Include="Busca_Funda.cs" />
     <Compile Include="Busca_Larga.cs" />
+    <Compile Include="Estado.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

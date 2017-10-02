@@ -14,16 +14,21 @@ using System.Text;
 
 namespace BuscasAspirador
 {
+    enum acoes
+    {
+        MovDireita,
+        MovEsquerda,
+        Aspira
+    }
+
     class Agente
     {
-        bool limpo { get; set; }
+
+        /*bool limpo { get; set; }
         bool ativo { get; set; }
         int[] local = new int[1]; // 0 = esquerda, 1 direita;
         ArrayList log = new ArrayList();
         
-
-
-
         //contrutor
         public Agente()
         {
@@ -33,7 +38,6 @@ namespace BuscasAspirador
             ativo = true;
             return;
         }
-
         
         public void Ativa()
 
@@ -47,8 +51,6 @@ namespace BuscasAspirador
             this.ativo = false;
             return;
         }
-
-
 
         public void MoverEsquerda()
         {
@@ -78,6 +80,21 @@ namespace BuscasAspirador
         public bool Verificar()
         {
             return this.limpo;
+        }*/
+
+
+        //Pensei em controlar o estado usando essa classe chamada estado, 
+        //a ideia era fazer tipo o padrão state mesmo, só que como ia dar trabalho resolvi fazer só um estado em vez de um genério e uma classe para cada possível estado
+        //Depois da uma olhada e me fala o que você achou
+        public Estado estado;
+
+        public Agente(int posicao) {
+            this.estado = new Estado(posicao);
+        }
+
+        public bool Acao(acoes acao)
+        {
+            return this.estado.Acao(acao);
         }
 
     }
