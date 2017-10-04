@@ -112,7 +112,7 @@ namespace BuscasAspirador
         //    return this.estadoInicial.Acao(acao);
         //}
 
-        public void BuscaLargura()
+        public Estado BuscaLargura()
         {
             int custo = 0;
             Estado estado = this.estadoInicial;
@@ -128,7 +128,7 @@ namespace BuscasAspirador
             if (this.estadoInicial.Pertence(objetivos))
             {
                 Console.WriteLine("Estado inicial é objetivo");
-                return;
+                return estado;
             }
 
             borda.Enqueue(estado);
@@ -138,7 +138,7 @@ namespace BuscasAspirador
                 if (borda.Count == 0)
                 {
                     Console.WriteLine("Falha");
-                    return;
+                    return null;
                 }
                 estado = borda.Dequeue();
                 foreach(acoes a in acoes)
@@ -150,7 +150,7 @@ namespace BuscasAspirador
                         if (filho.Pertence(objetivos))
                         {
                             Console.WriteLine("Achou");
-                            return;
+                            return filho;
                         }
                         borda.Enqueue(filho);
                     }
