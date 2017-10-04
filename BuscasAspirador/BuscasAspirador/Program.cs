@@ -8,22 +8,24 @@ namespace BuscasAspirador
 		public static void Main(string[] args)
 		{
             Estado objetivo;
-            Agente agente = new Agente(0);
+            Agente agente = new Agente(1);
             objetivo = agente.BuscaLargura();
-            Console.WriteLine(MostraCaminho(objetivo));
+            Console.WriteLine(MostraCaminho(objetivo,0));
             Console.ReadLine();
         }
 
 
-        public static string MostraCaminho(Estado objetivo)
+        public static string MostraCaminho(Estado objetivo, int profundidade)
         {
+            
             if (objetivo == null)
                 return "Caminho para o estado objetivo não encontrado.";
 
             if (objetivo.Pai == null)
-                return "Caminho: ";
+                return "Profundidade:  "+ profundidade + ", Caminho: ";
 
-            return MostraCaminho(objetivo.Pai) + objetivo.acaoAnterior + " ,";
+            profundidade++;
+            return MostraCaminho(objetivo.Pai, profundidade) + objetivo.acaoAnterior + " ,";
         }
         
 	}
