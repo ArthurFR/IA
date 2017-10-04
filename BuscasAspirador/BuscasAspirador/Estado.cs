@@ -11,14 +11,9 @@ namespace BuscasAspirador
         public bool EsquerdoSujo { get; set; }
         public bool DireitoSujo { get; set; }
         public int Posicao { get; set; } // 0 esquerdo, 1 direito
+        public Estado Pai { get; set; }
+        public acoes acaoAnterior { get; set; }
         List<Estado> lista = new List<Estado>();//armazena os filhos
-
-        public Estado(bool esquerdo,bool direito, int posicao )
-        {
-            this.EsquerdoSujo = esquerdo;
-            this.DireitoSujo = direito;
-            this.Posicao = posicao;
-        }
 
         public Estado(int posicao)
         {
@@ -27,25 +22,39 @@ namespace BuscasAspirador
             this.Posicao = posicao;
         }
 
+        public Estado(bool esquerdo, bool direito, int posicao)
+        {
+            this.EsquerdoSujo = esquerdo;
+            this.DireitoSujo = direito;
+            this.Posicao = posicao;
+        }
+
+        public Estado(bool esquerdo, bool direito, int posicao, acoes acaoAnterior)
+        {
+            this.EsquerdoSujo = esquerdo;
+            this.DireitoSujo = direito;
+            this.Posicao = posicao;
+            this.acaoAnterior = acaoAnterior;
+        }
 
         public Estado Acao(acoes acao)
         {
             switch (acao)
             {
                 case acoes.MovDireita:
-                    return new Estado(this.EsquerdoSujo, this.DireitoSujo, 1);
+                    return new Estado(this.EsquerdoSujo, this.DireitoSujo, 1, acao);
                     break;
                 case acoes.MovEsquerda:
-                    return new Estado(this.EsquerdoSujo, this.DireitoSujo, 0);
+                    return new Estado(this.EsquerdoSujo, this.DireitoSujo, 0, acao);
                     break;
                 case acoes.Aspira:
                     if (this.Posicao == 0)
                     {
-                        return new Estado(false, this.DireitoSujo, this.Posicao);
+                        return new Estado(false, this.DireitoSujo, this.Posicao, acao);
                     }
                     else
                     {
-                        return new Estado(this.EsquerdoSujo, false, this.Posicao);
+                        return new Estado(this.EsquerdoSujo, false, this.Posicao, acao);
                     }
                     break;
             }

@@ -144,6 +144,7 @@ namespace BuscasAspirador
                 foreach(acoes a in acoes)
                 {
                     filho = estado.Acao(a);
+                    filho.Pai = estado;
                     if (!filho.Pertence(explorados))
                     {
                         if (filho.Pertence(objetivos))
@@ -155,6 +156,11 @@ namespace BuscasAspirador
                     }
                 }
             }
+        }
+
+        public void BuscaEstrela()
+        {
+
         }
     }
 }
