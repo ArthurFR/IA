@@ -9,10 +9,10 @@ namespace BuscasAspirador
     class Busca_Larga
     {
         public bool isInitialized;
+        public void Raiz()
+        {
+            Estado estado = new Estado(0);
+            return;
+        }
     }
-
-    public void Raiz()
-    {
-        Estado estado = new Estado(0);
-        return;
-    }
+}

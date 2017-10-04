@@ -28,33 +28,52 @@ namespace BuscasAspirador
         }
 
 
-        public bool Acao(acoes acao)
+        public Estado Acao(acoes acao)
         {
             switch (acao)
             {
                 case acoes.MovDireita:
-                    this.Posicao = 1;
+                    return new Estado(this.EsquerdoSujo, this.DireitoSujo, 1);
                     break;
                 case acoes.MovEsquerda:
-                    this.Posicao = 0;
+                    return new Estado(this.EsquerdoSujo, this.DireitoSujo, 0);
                     break;
                 case acoes.Aspira:
                     if (this.Posicao == 0)
                     {
-                        EsquerdoSujo = false;
-                    }else
+                        return new Estado(false, this.DireitoSujo, this.Posicao);
+                    }
+                    else
                     {
-                        DireitoSujo = false;
+                        return new Estado(this.EsquerdoSujo, false, this.Posicao);
                     }
                     break;
-
-                default:
-                    return false;
             }
-
-            return true;
+            return null;
         }
     
+        public bool Igual(Estado estado)
+        {
+            if(this.EsquerdoSujo == estado.EsquerdoSujo &&
+               this.DireitoSujo == estado.DireitoSujo &&
+               this.Posicao == estado.Posicao)
+            {
+                return true;
+            }
+            else
+                return false;
+
+        }
+
+        public bool Pertence(List<Estado> estados)
+        {
+            foreach(Estado a in estados)
+            {
+                if (this.Igual(a))
+                    return true;
+            }
+            return false;
+        }
 
         public Estado Expande(Estado estado)
         {
