@@ -95,7 +95,7 @@ namespace BuscasAspirador
             //state 5  --> esquerdo [Limpo], direito [Limo], Agente [Direito]
             if (!estado.EsquerdoSujo && !estado.DireitoSujo && estado.Posicao == 1)
             {
-                Estado estado0 = new Estado(false, false, 1); //esquerdo [limpo], direito [sujo], Agente [Direito]
+                Estado estado0 = new Estado(false, false, 0); //esquerdo [limpo], direito [sujo], Agente [Esquerdo]
                 estado.lista.Add(estado0);
             }
 
@@ -105,7 +105,7 @@ namespace BuscasAspirador
                 Estado estado0 = new Estado(true, false, 0); //esquerdo [Sujo], direito [Limpo], Agente [Esquerdo]
                 estado.lista.Add(estado0);
             }
-            //state 7  --> esquerdo [Sujo], direito [Limo], Agente [Direito]
+            //state 7  --> esquerdo [Sujo], direito [Limo], Agente [Esquerdo]
             if (estado.EsquerdoSujo && !estado.DireitoSujo && estado.Posicao == 0)
             {
                 Estado estado0 = new Estado(false, false, 0); //esquerdo [limpo], direito [Limpo], Agente [Esquerdo]
@@ -114,7 +114,7 @@ namespace BuscasAspirador
                 estado.lista.Add(estado1);
             }
 
-            //state 8  --> esquerdo [Limpo], direito [Limo], Agente [Direito]
+            //state 8  --> esquerdo [Limpo], direito [Limo], Agente [Esquerdo]
             if (!estado.EsquerdoSujo && !estado.DireitoSujo && estado.Posicao == 0)
             {
                 Estado estado0 = new Estado(false, false, 1); //esquerdo [limpo], direito [sujo], Agente [Direito]
