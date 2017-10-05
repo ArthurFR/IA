@@ -25,8 +25,8 @@ namespace BuscasAspirador
                             Console.WriteLine(MostraCaminho(objetivo, 0));
                             break;
                         case "2"://BuscaProfunda
-                            //objetivo = agente.BuscaProfunda();
-                            //Console.WriteLine(MostraCaminho(objetivo));
+                            objetivo = agente.BuscaProfundidade();
+                            Console.WriteLine(MostraCaminho(objetivo,0));
                             break;
                         case "3"://BuscaEstrela
                                  objetivo = agente.BuscaEstrela();

@@ -101,6 +101,56 @@ namespace BuscasAspirador
             }
         }
 
+        public Estado BuscaProfundidade()
+        {
+            int nosVisitados = 0;
+
+            Estado no = this.estadoInicial;
+            Estado filho;
+
+            Stack<Estado> borda = new Stack<Estado>();
+            List<Estado> explorados = new List<Estado>();
+
+            List<acoes> acoes = new List<BuscasAspirador.acoes>();
+            acoes.Add(BuscasAspirador.acoes.MovEsquerda);
+            acoes.Add(BuscasAspirador.acoes.MovDireita);
+            acoes.Add(BuscasAspirador.acoes.Aspira);
+
+            if (this.estadoInicial.Pertence(objetivos))
+            {
+                Console.WriteLine("Estado inicial é objetivo");
+                return no;
+            }
+
+            borda.Push(no);
+
+            while (borda.Count() > 0)
+            {
+                no = borda.Pop();
+
+                if (no.Pertence(explorados))
+                    continue;
+
+                explorados.Add(no);
+                nosVisitados++;
+                foreach(acoes a in acoes)
+                {
+                    filho = no.Acao(a);
+                    if (filho.Pertence(objetivos))
+                    {
+                        Console.WriteLine("Achou");
+                        Console.WriteLine("Nós visitados: " + nosVisitados);
+                        return filho;
+                    }
+                    if (!filho.Pertence(explorados))
+                        borda.Push(filho);
+
+                }
+            }
+            return null;
+
+        }
+
         public Estado BuscaEstrela()
         {
             int nosVisitados = 0;
