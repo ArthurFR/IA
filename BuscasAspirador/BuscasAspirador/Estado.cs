@@ -67,13 +67,9 @@ namespace BuscasAspirador
                     break;
                 case acoes.Aspira:
                     if (this.Posicao == 0)
-                    {
                         return new Estado(false, this.DireitoSujo, this.Posicao, this, acao);
-                    }
                     else
-                    {
                         return new Estado(this.EsquerdoSujo, false, this.Posicao, this, acao);
-                    }
                     break;
             }
             return null;

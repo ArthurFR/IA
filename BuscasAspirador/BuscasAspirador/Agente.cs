@@ -170,6 +170,7 @@ namespace BuscasAspirador
             no.h = no.CalculaH();
             no.f = no.h + no.g;
             borda.Add(no);
+            nosVisitados++;
 
             if (no.Pertence(objetivos))
             {
@@ -181,7 +182,6 @@ namespace BuscasAspirador
                 no = this.MenorF(borda);
                 borda.Remove(no);
                 explorados.Add(no);
-                nosVisitados++;
 
                 foreach (acoes a in acoes)
                 {
@@ -196,11 +196,12 @@ namespace BuscasAspirador
                     filho.g = no.g + 1;
                     filho.f = filho.g + filho.h;
 
-                    if (!filho.ExisteNoIgualMenorF(borda))
-                    {
-                        if (!filho.ExisteNoIgualMenorF(explorados))
-                            borda.Add(filho);
-                    }
+                    if (filho.ExisteNoIgualMenorF(borda))
+                        continue;
+                    if (filho.ExisteNoIgualMenorF(explorados))
+                        continue;
+                    borda.Add(filho);
+                    nosVisitados++;
                 }
             }
             return null;
