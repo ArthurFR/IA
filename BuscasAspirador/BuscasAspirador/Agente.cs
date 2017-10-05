@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 
@@ -23,66 +24,6 @@ namespace BuscasAspirador
 
     class Agente
     {
-
-        /*bool limpo { get; set; }
-        bool ativo { get; set; }
-        int[] local = new int[1]; // 0 = esquerda, 1 direita;
-        ArrayList log = new ArrayList();
-        
-        //contrutor
-        public Agente()
-        {
-            this.limpo = false;
-            local[0] = 1;
-            local[1] = 0;
-            ativo = true;
-            return;
-        }
-        
-        public void Ativa()
-
-        {
-            this.ativo = true;
-            return;
-        }
-
-        public void Desativa()
-        {
-            this.ativo = false;
-            return;
-        }
-
-        public void MoverEsquerda()
-        {
-            if (this.local[0] == 0)
-            {
-                this.local[0] = 1;
-                this.local[1] = 0;
-            }
-            return;
-        }
-
-        public void MoverDireita()
-        {
-            if (this.local[1] == 0)
-            {
-                this.local[1] = 1;
-                this.local[0] = 0;
-            }
-            return;
-        }
-
-        public void Limpar()
-        {
-            this.limpo = true;
-            return;
-        }
-        public bool Verificar()
-        {
-            return this.limpo;
-        }*/
-
-
         //Pensei em controlar o estado usando essa classe chamada estado, 
         //a ideia era fazer tipo o padrão state mesmo, só que como ia dar trabalho resolvi fazer só um estado em vez de um genério e uma classe para cada possível estado
         //Depois da uma olhada e me fala o que você achou
@@ -114,7 +55,7 @@ namespace BuscasAspirador
 
         public Estado BuscaLargura()
         {
-            int custo = 0;
+            int nosVisitados = 0;
             Estado estado = this.estadoInicial;
             Estado filho;
             Queue<Estado> borda = new Queue<Estado>();
@@ -141,6 +82,8 @@ namespace BuscasAspirador
                     return null;
                 }
                 estado = borda.Dequeue();
+                explorados.Add(estado);
+                nosVisitados++;
                 foreach(acoes a in acoes)
                 {
                     filho = estado.Acao(a);
@@ -149,6 +92,7 @@ namespace BuscasAspirador
                         if (filho.Pertence(objetivos))
                         {
                             Console.WriteLine("Achou");
+                            Console.WriteLine("Nós visitados: " + nosVisitados);
                             return filho;
                         }
                         borda.Enqueue(filho);
@@ -157,9 +101,70 @@ namespace BuscasAspirador
             }
         }
 
-        public void BuscaEstrela()
+        public Estado BuscaEstrela()
         {
+            int nosVisitados = 0;
 
+            Estado no = this.estadoInicial;
+            Estado filho;
+
+            List<Estado> borda = new List<Estado>();
+            List<Estado> explorados = new List<Estado>();
+
+            List<acoes> acoes = new List<BuscasAspirador.acoes>();
+            acoes.Add(BuscasAspirador.acoes.MovEsquerda);
+            acoes.Add(BuscasAspirador.acoes.MovDireita);
+            acoes.Add(BuscasAspirador.acoes.Aspira);
+
+            no.g = 0;
+            no.h = no.CalculaH();
+            no.f = no.h + no.g;
+            borda.Add(no);
+
+            if (no.Pertence(objetivos))
+            {
+                return no;
+            }
+
+            while (borda.Count != 0)
+            {
+                no = this.MenorF(borda);
+                borda.Remove(no);
+                nosVisitados++;
+
+                foreach (acoes a in acoes)
+                {
+                    filho = no.Acao(a);
+                    if (filho.Pertence(objetivos))
+                    {
+                        Console.WriteLine("Achou");
+                        Console.WriteLine("Nós visitados: " + nosVisitados);
+                        return filho;
+                    }
+                    
+                    filho.g = no.g + 1;
+                    filho.f = filho.g + filho.h;
+
+                    if (!filho.ExisteNoIgualMenorF(borda))
+                    {
+                        if (!filho.ExisteNoIgualMenorF(explorados))
+                            borda.Add(filho);
+                    }
+                }
+            }
+            return null;
+        }
+
+
+        public Estado MenorF(List<Estado> nos)
+        {
+            Estado menorF = nos.First();
+            foreach(Estado e in nos)
+            {
+                if (e.f < menorF.f)
+                    menorF = e;
+            }
+            return menorF;
         }
     }
 }

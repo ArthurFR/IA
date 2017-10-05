@@ -9,8 +9,13 @@ namespace BuscasAspirador
 		{
             Estado objetivo;
             Agente agente = new Agente(1);
-            objetivo = agente.BuscaLargura();
+            objetivo = agente.BuscaEstrela();
             Console.WriteLine(MostraCaminho(objetivo,0));
+            Console.ReadLine();
+
+            agente = new Agente(1);
+            objetivo = agente.BuscaLargura();
+            Console.WriteLine(MostraCaminho(objetivo, 0));
             Console.ReadLine();
         }
 
