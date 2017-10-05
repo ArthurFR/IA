@@ -106,7 +106,7 @@ namespace BuscasAspirador
         {
             foreach (Estado a in estados)
             {
-                if (this.Igual(a)&&this.f>a.f)
+                if (this.Igual(a)&&this.f>=a.f)
                     return true;
             }
             return false;

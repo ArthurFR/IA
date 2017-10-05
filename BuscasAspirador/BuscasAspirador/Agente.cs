@@ -130,6 +130,7 @@ namespace BuscasAspirador
             {
                 no = this.MenorF(borda);
                 borda.Remove(no);
+                explorados.Add(no);
                 nosVisitados++;
 
                 foreach (acoes a in acoes)
