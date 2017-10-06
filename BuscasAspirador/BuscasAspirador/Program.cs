@@ -22,8 +22,8 @@ namespace BuscasAspirador
             //Console.WriteLine("**Direito = 1**");
             posicao = Convert.ToInt32(Console.ReadLine());
 
-            Agente agente = new Agente(String.Compare(esquerdo, "true", true) == 0 ? true : false,
-                                        String.Compare(direito, "true", true) == 0 ? true : false,
+            Agente agente = new Agente(String.Compare(esquerdo, "sujo", true) == 0 ? true : false,
+                                        String.Compare(direito, "sujo", true) == 0 ? true : false,
                                         posicao);
 
             try
