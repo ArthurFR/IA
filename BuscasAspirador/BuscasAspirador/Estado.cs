@@ -47,9 +47,14 @@ namespace BuscasAspirador
         public int CalculaH()
         {
             int result = 0;
-            if (!this.EsquerdoSujo)
+            if (this.EsquerdoSujo)
                 result++;
-            if (!this.DireitoSujo)
+            if (this.DireitoSujo)
+                result++;
+
+            if (this.Posicao == 1 && this.EsquerdoSujo)
+                result++;
+            if (this.Posicao == 0 && this.DireitoSujo)
                 result++;
 
             return result;

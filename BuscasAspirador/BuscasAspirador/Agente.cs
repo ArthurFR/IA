@@ -1,17 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-
-
-/*
- idéia, vetor de state..
-1-(sujo)/sujo
-2-(limpo)/sujo
-3-limpo/(sujo)
-4-limpo/(limpo)
-*/
-
 
 namespace BuscasAspirador
 {
@@ -30,15 +19,19 @@ namespace BuscasAspirador
         public Estado estadoInicial;
         public List<Estado> objetivos;
 
-        //Listas para as buscas
-        //public List<Estado> explorados;
-        //public List<Estado> borda;
+        List<acoes> acoes;
+
 
         public Agente(int posicao) {
             this.estadoInicial = new Estado(posicao);
             objetivos = new List<Estado>();
             objetivos.Add(new Estado(false,false, 0));
             objetivos.Add(new Estado(false, false, 1));
+
+            acoes = new List<BuscasAspirador.acoes>();
+            this.acoes.Add(BuscasAspirador.acoes.Aspira);
+            this.acoes.Add(BuscasAspirador.acoes.MovEsquerda);
+            this.acoes.Add(BuscasAspirador.acoes.MovDireita);
         }
 
         public Agente(bool esquerdo, bool direito,int posicao)
@@ -47,11 +40,12 @@ namespace BuscasAspirador
             objetivos = new List<Estado>();
             objetivos.Add(new Estado(false, false, 0));
             objetivos.Add(new Estado(false, false, 1));
+
+            acoes = new List<BuscasAspirador.acoes>();
+            this.acoes.Add(BuscasAspirador.acoes.Aspira);
+            this.acoes.Add(BuscasAspirador.acoes.MovEsquerda);
+            this.acoes.Add(BuscasAspirador.acoes.MovDireita);
         }
-        //public bool Acao(acoes acao)
-        //{
-        //    return this.estadoInicial.Acao(acao);
-        //}
 
         public Estado BuscaLargura()
         {
@@ -60,11 +54,6 @@ namespace BuscasAspirador
             Estado filho;
             Queue<Estado> borda = new Queue<Estado>();
             List<Estado> explorados = new List<Estado>();
-            List<acoes> acoes = new List<BuscasAspirador.acoes>();
-            acoes.Add(BuscasAspirador.acoes.MovEsquerda);
-            acoes.Add(BuscasAspirador.acoes.MovDireita);
-            acoes.Add(BuscasAspirador.acoes.Aspira);
-
 
             if (this.estadoInicial.Pertence(objetivos))
             {
@@ -111,11 +100,6 @@ namespace BuscasAspirador
             Stack<Estado> borda = new Stack<Estado>();
             List<Estado> explorados = new List<Estado>();
 
-            List<acoes> acoes = new List<BuscasAspirador.acoes>();
-            acoes.Add(BuscasAspirador.acoes.MovEsquerda);
-            acoes.Add(BuscasAspirador.acoes.MovDireita);
-            acoes.Add(BuscasAspirador.acoes.Aspira);
-
             if (this.estadoInicial.Pertence(objetivos))
             {
                 Console.WriteLine("Estado inicial é objetivo");
@@ -127,13 +111,13 @@ namespace BuscasAspirador
             while (borda.Count() > 0)
             {
                 no = borda.Pop();
-
+                
                 if (no.Pertence(explorados))
                     continue;
 
                 explorados.Add(no);
                 nosVisitados++;
-                foreach(acoes a in acoes)
+                foreach (acoes a in acoes)
                 {
                     filho = no.Acao(a);
                     if (filho.Pertence(objetivos))
@@ -161,16 +145,10 @@ namespace BuscasAspirador
             List<Estado> borda = new List<Estado>();
             List<Estado> explorados = new List<Estado>();
 
-            List<acoes> acoes = new List<BuscasAspirador.acoes>();
-            acoes.Add(BuscasAspirador.acoes.MovEsquerda);
-            acoes.Add(BuscasAspirador.acoes.MovDireita);
-            acoes.Add(BuscasAspirador.acoes.Aspira);
-
             no.g = 0;
             no.h = no.CalculaH();
             no.f = no.h + no.g;
             borda.Add(no);
-            nosVisitados++;
 
             if (no.Pertence(objetivos))
             {
@@ -182,7 +160,7 @@ namespace BuscasAspirador
                 no = this.MenorF(borda);
                 borda.Remove(no);
                 explorados.Add(no);
-
+                nosVisitados++;
                 foreach (acoes a in acoes)
                 {
                     filho = no.Acao(a);
@@ -201,7 +179,6 @@ namespace BuscasAspirador
                     if (filho.ExisteNoIgualMenorF(explorados))
                         continue;
                     borda.Add(filho);
-                    nosVisitados++;
                 }
             }
             return null;
