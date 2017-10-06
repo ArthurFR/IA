@@ -42,6 +42,7 @@ namespace BuscasAspirador
             this.Pai = pai;
             this.acaoAnterior = acaoAnterior;
             this.h = this.CalculaH();
+            this.g = pai.g + 1;
         }
 
         public int CalculaH()

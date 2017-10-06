@@ -18,7 +18,8 @@ namespace BuscasAspirador
             //Console.WriteLine("**Direito limpo? true/false**");
             direito = System.Console.ReadLine();
             //Console.WriteLine("**Posição?esquerdo =1**");
-            //Console.WriteLine("**Esquerdo = 0**");
+            //Console.WriteLine("**Esquerdo = 0**");z
+
             //Console.WriteLine("**Direito = 1**");
             posicao = Convert.ToInt32(Console.ReadLine());
 
@@ -46,6 +47,7 @@ namespace BuscasAspirador
                         case "3"://BuscaEstrela
                             objetivo = agente.BuscaEstrela();
                             Console.WriteLine(MostraCaminho(objetivo, 0));
+                            Console.WriteLine(MostraNosG_H(objetivo));
                             break;
 
                     } //Fim switch
@@ -82,6 +84,18 @@ namespace BuscasAspirador
 
             profundidade++;
             return MostraCaminho(objetivo.Pai, profundidade) + objetivo.acaoAnterior + " ,";
+        }
+
+        public static string MostraNosG_H(Estado objetivo)
+        {
+
+            if (objetivo == null)
+                return "Caminho para o estado objetivo não encontrado.";
+
+            if (objetivo.Pai == null)
+                return "\nNos: " + objetivo.ImprimeEstadoInicial() + " G: " + objetivo.g + " H: " + objetivo.h + "\n";
+
+            return MostraNosG_H(objetivo.Pai) + objetivo.ImprimeEstadoInicial() + " G: " + objetivo.g + " H: " + objetivo.h + "\n";
         }
 
     }
