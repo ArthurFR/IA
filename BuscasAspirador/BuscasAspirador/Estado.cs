@@ -112,6 +112,15 @@ namespace BuscasAspirador
             }
             return false;
         }
+
+        public string ImprimeEstadoInicial()
+        {
+            string esquerda = this.EsquerdoSujo ? "Sujo, " : "Limpo, ";
+            string direita = this.DireitoSujo ? "Sujo, " : "Limpo, ";
+            string position = this.Posicao == 0 ? "Esquerda" : "Direita";
+
+            return "(" + esquerda + direita + position + ")";
+        }
     }
 }
 

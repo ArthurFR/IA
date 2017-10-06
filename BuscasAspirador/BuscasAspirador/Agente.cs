@@ -13,9 +13,6 @@ namespace BuscasAspirador
 
     class Agente
     {
-        //Pensei em controlar o estado usando essa classe chamada estado, 
-        //a ideia era fazer tipo o padrão state mesmo, só que como ia dar trabalho resolvi fazer só um estado em vez de um genério e uma classe para cada possível estado
-        //Depois da uma olhada e me fala o que você achou
         public Estado estadoInicial;
         public List<Estado> objetivos;
 
@@ -42,19 +39,29 @@ namespace BuscasAspirador
             objetivos.Add(new Estado(false, false, 1));
 
             acoes = new List<BuscasAspirador.acoes>();
+
             this.acoes.Add(BuscasAspirador.acoes.Aspira);
             this.acoes.Add(BuscasAspirador.acoes.MovEsquerda);
             this.acoes.Add(BuscasAspirador.acoes.MovDireita);
         }
 
+
+        public string ImprimeEstadoInicial()
+        {
+            return this.estadoInicial.ImprimeEstadoInicial();
+        }
+
         public Estado BuscaLargura()
         {
-            int nosVisitados = 0;
+            int nosExpandidos = 0;
+            int nosGerados = 0;
+
             Estado estado = this.estadoInicial;
             Estado filho;
             Queue<Estado> borda = new Queue<Estado>();
             List<Estado> explorados = new List<Estado>();
 
+            nosGerados++;
             if (this.estadoInicial.Pertence(objetivos))
             {
                 Console.WriteLine("Estado inicial é objetivo");
@@ -72,7 +79,7 @@ namespace BuscasAspirador
                 }
                 estado = borda.Dequeue();
                 explorados.Add(estado);
-                nosVisitados++;
+                nosExpandidos++;
                 foreach(acoes a in acoes)
                 {
                     filho = estado.Acao(a);
@@ -81,10 +88,12 @@ namespace BuscasAspirador
                         if (filho.Pertence(objetivos))
                         {
                             Console.WriteLine("Achou");
-                            Console.WriteLine("Nós visitados: " + nosVisitados);
+                            Console.WriteLine("Nós expandidos: " + nosExpandidos);
+                            //Console.WriteLine("Nós gerados: " + nosGerados);
                             return filho;
                         }
                         borda.Enqueue(filho);
+                        nosGerados++;
                     }
                 }
             }
@@ -92,7 +101,8 @@ namespace BuscasAspirador
 
         public Estado BuscaProfundidade()
         {
-            int nosVisitados = 0;
+            int nosExpandidos = 0;
+            int nosGerados = 0;
 
             Estado no = this.estadoInicial;
             Estado filho;
@@ -100,6 +110,7 @@ namespace BuscasAspirador
             Stack<Estado> borda = new Stack<Estado>();
             List<Estado> explorados = new List<Estado>();
 
+            nosGerados++;
             if (this.estadoInicial.Pertence(objetivos))
             {
                 Console.WriteLine("Estado inicial é objetivo");
@@ -116,19 +127,22 @@ namespace BuscasAspirador
                     continue;
 
                 explorados.Add(no);
-                nosVisitados++;
+                nosExpandidos++;
                 foreach (acoes a in acoes)
                 {
                     filho = no.Acao(a);
                     if (filho.Pertence(objetivos))
                     {
                         Console.WriteLine("Achou");
-                        Console.WriteLine("Nós visitados: " + nosVisitados);
+                        Console.WriteLine("Nós expandidos: " + nosExpandidos);
+                        //Console.WriteLine("Nós gerados: " + nosGerados);
                         return filho;
                     }
                     if (!filho.Pertence(explorados))
+                    {
                         borda.Push(filho);
-
+                        nosGerados++;
+                    }
                 }
             }
             return null;
@@ -137,8 +151,8 @@ namespace BuscasAspirador
 
         public Estado BuscaEstrela()
         {
-            int nosVisitados = 0;
-
+            int nosExpandidos = 0;
+            int nosGerados = 0;
             Estado no = this.estadoInicial;
             Estado filho;
 
@@ -150,8 +164,10 @@ namespace BuscasAspirador
             no.f = no.h + no.g;
             borda.Add(no);
 
+            nosGerados++;
             if (no.Pertence(objetivos))
             {
+                Console.WriteLine("Estado inicial é objetivo");
                 return no;
             }
 
@@ -160,14 +176,15 @@ namespace BuscasAspirador
                 no = this.MenorF(borda);
                 borda.Remove(no);
                 explorados.Add(no);
-                nosVisitados++;
+                nosExpandidos++;
                 foreach (acoes a in acoes)
                 {
                     filho = no.Acao(a);
                     if (filho.Pertence(objetivos))
                     {
                         Console.WriteLine("Achou");
-                        Console.WriteLine("Nós visitados: " + nosVisitados);
+                        Console.WriteLine("Nós expandidos: " + nosExpandidos);
+                        //Console.WriteLine("Nós gerados: " + nosGerados);
                         return filho;
                     }
                     
@@ -179,6 +196,7 @@ namespace BuscasAspirador
                     if (filho.ExisteNoIgualMenorF(explorados))
                         continue;
                     borda.Add(filho);
+                    nosGerados++;
                 }
             }
             return null;

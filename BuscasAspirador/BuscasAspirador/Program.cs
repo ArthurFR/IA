@@ -30,7 +30,7 @@ namespace BuscasAspirador
             {
                 do
                 {
-                    Menu();
+                    Menu(agente);
 
                     opcao = Console.ReadLine();
                     switch (opcao)
@@ -49,6 +49,7 @@ namespace BuscasAspirador
                             break;
 
                     } //Fim switch
+                    Console.WriteLine("\n");
                 } while (opcao != "0");
 
             }
@@ -59,8 +60,9 @@ namespace BuscasAspirador
             }
         }
 
-        public static void Menu()
+        public static void Menu(Agente agente)
         {
+            Console.WriteLine("Estado Inicial: "+ agente.ImprimeEstadoInicial() + "\n");
             Console.WriteLine("**MENU**");
             Console.WriteLine("1. BuscaLargura");
             Console.WriteLine("2. BuscaProfunda");
@@ -76,7 +78,7 @@ namespace BuscasAspirador
                 return "Caminho para o estado objetivo não encontrado.";
 
             if (objetivo.Pai == null)
-                return "Profundidade:  " + profundidade + ", Caminho: ";
+                return "Profundidade:  " + profundidade + "\nCaminho: ";
 
             profundidade++;
             return MostraCaminho(objetivo.Pai, profundidade) + objetivo.acaoAnterior + " ,";
