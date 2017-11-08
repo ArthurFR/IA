@@ -10,11 +10,24 @@ namespace MinMax
     {
         static void Main(string[] args)
         {
-            int[,] matriz = new int[3,3] {{1,2,3}, {4,5,6}, {7,8,9}};
+            int[,] matriz = new int[3,3] {{0,0,0}, {0,0,0}, {0,0,0}}; // estado inicial State(0)
             ExibeMatriz(matriz);
             System.Console.ReadKey();
 
         }
+
+
+
+        public static void Round(int round, int[,] matriz)
+        {
+            if (round == 1)
+            {
+
+            }
+
+        }
+
+
 
         public static void ExibeMatriz(int[,] matriz)
         {
