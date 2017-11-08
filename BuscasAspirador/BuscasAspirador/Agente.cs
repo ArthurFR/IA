@@ -83,17 +83,19 @@ namespace BuscasAspirador
                 foreach(acoes a in acoes)
                 {
                     filho = estado.Acao(a);
+                    nosGerados++;
                     if (!filho.Pertence(explorados))
                     {
                         if (filho.Pertence(objetivos))
                         {
                             Console.WriteLine("Achou");
                             Console.WriteLine("Nós expandidos: " + nosExpandidos);
+                            Console.WriteLine("Nós gerados: " + nosGerados);
                             //Console.WriteLine("Nós gerados: " + nosGerados);
                             return filho;
                         }
                         borda.Enqueue(filho);
-                        nosGerados++;
+                        
                     }
                 }
             }
@@ -131,17 +133,18 @@ namespace BuscasAspirador
                 foreach (acoes a in acoes)
                 {
                     filho = no.Acao(a);
+                    nosGerados++;
                     if (filho.Pertence(objetivos))
                     {
                         Console.WriteLine("Achou");
                         Console.WriteLine("Nós expandidos: " + nosExpandidos);
+                        Console.WriteLine("Nós gerados: " + nosGerados);
                         //Console.WriteLine("Nós gerados: " + nosGerados);
                         return filho;
                     }
                     if (!filho.Pertence(explorados))
                     {
                         borda.Push(filho);
-                        nosGerados++;
                     }
                 }
             }
@@ -180,10 +183,12 @@ namespace BuscasAspirador
                 foreach (acoes a in acoes)
                 {
                     filho = no.Acao(a);
+                    nosGerados++;
                     if (filho.Pertence(objetivos))
                     {
                         Console.WriteLine("Achou");
                         Console.WriteLine("Nós expandidos: " + nosExpandidos);
+                        Console.WriteLine("Nós gerados: " + nosGerados);
                         //Console.WriteLine("Nós gerados: " + nosGerados);
                         return filho;
                     }
@@ -196,7 +201,6 @@ namespace BuscasAspirador
                     if (filho.ExisteNoIgualMenorF(explorados))
                         continue;
                     borda.Add(filho);
-                    nosGerados++;
                 }
             }
             return null;
