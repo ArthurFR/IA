@@ -15,7 +15,6 @@ namespace MiniMax
         {
             this.estado = estado;
         }
-
         public string[,] GetEstado()
         {
             return this.estado;
