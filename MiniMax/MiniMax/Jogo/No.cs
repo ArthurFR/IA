@@ -15,5 +15,8 @@ namespace MiniMax
         {
             this.estado = estado;
         }
+
+
+
     }
 }

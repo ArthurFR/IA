@@ -4,3 +4,10 @@ C:\Users\Arthur\Documents\repos\IA\MiniMax\MiniMax\bin\Debug\MiniMax.pdb
 C:\Users\Arthur\Documents\repos\IA\MiniMax\MiniMax\obj\Debug\MiniMax.csprojResolveAssemblyReference.cache
 C:\Users\Arthur\Documents\repos\IA\MiniMax\MiniMax\obj\Debug\MiniMax.exe
 C:\Users\Arthur\Documents\repos\IA\MiniMax\MiniMax\obj\Debug\MiniMax.pdb
+C:\Users\leona\Documents\IA\MiniMax\MiniMax\obj\Debug\MiniMax.csprojResolveAssemblyReference.cache
+C:\Users\leona\Documents\IA\MiniMax\MiniMax\obj\Debug\MiniMax.csproj.CoreCompileInputs.cache
+C:\Users\leona\Documents\IA\MiniMax\MiniMax\obj\Debug\MiniMax.exe
+C:\Users\leona\Documents\IA\MiniMax\MiniMax\obj\Debug\MiniMax.pdb
+C:\Users\leona\Documents\IA\MiniMax\MiniMax\bin\Debug\MiniMax.exe.config
+C:\Users\leona\Documents\IA\MiniMax\MiniMax\bin\Debug\MiniMax.exe
+C:\Users\leona\Documents\IA\MiniMax\MiniMax\bin\Debug\MiniMax.pdb
