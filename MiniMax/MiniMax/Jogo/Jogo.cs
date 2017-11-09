@@ -11,12 +11,10 @@ namespace MiniMax
         No no;
         string min, max;
         List<Tuple<int, int, string>> movimentos;
-        string[,] matriz;
 
         public Jogo(string[,] estadoInicial, string min, string max)
         {
-            no = new No();
-            this.no.SetEstado(estadoInicial);
+            no = new No(estadoInicial);
             this.min = min;
             this.max = max;
 
@@ -39,6 +37,18 @@ namespace MiniMax
             movimentos.Add(new Tuple<int, int, string>(2, 0, "o"));
             movimentos.Add(new Tuple<int, int, string>(2, 1, "o"));
             movimentos.Add(new Tuple<int, int, string>(2, 2, "o"));
+        }
+
+        public List<No> GeraNosSucessores(No no, List<Tuple<int, int, string>> sucessores)
+        {
+            List < No > nosSucessores = new List<No>();
+
+            foreach(Tuple<int, int, string> m in sucessores)
+            {
+                No sucessor = new No(no, Movimenta(no.GetEstado(), m),!no.getMax());
+                nosSucessores.Add(sucessor);
+            }
+            return nosSucessores;
         }
 
         public List<Tuple<int,int,string>> Sucessores(string[,] estado)
@@ -68,18 +78,77 @@ namespace MiniMax
             return false;
         }
 
-        public  GetUtilidade(No no)
+
+        public int MinMax(No no)
         {
-            if (EstadoTerminal(no.GetEstado))
+            string vencedor = null;
+            List<Tuple<int, int, string>> movimentosValidos;
+            List<No> nosSucessores;
+
+            //Se for terminal retorna utilidade
+            if (eTerminal(no, vencedor))
             {
-                return -1, 0, ou 1;
+                if (vencedor.Equals("X"))
+                    return 1;
+                if (vencedor.Equals("O"))
+                    return -1;
+                return 0;
             }
 
-
-            return GetUtilidade(No no)
+            movimentosValidos = Sucessores(no.GetEstado());
+            nosSucessores = GeraNosSucessores(no,movimentosValidos);
+            foreach (No n in nosSucessores)
+            {
+                n.setUtilidade(MinMax(n));
+            }
+            if (no.getMax())
+            {
+                int maximo = nosSucessores.First<No>().GetUtilidade();
+                foreach (No n in nosSucessores)
+                {
+                    if (n.GetUtilidade() > maximo)
+                        maximo = n.GetUtilidade();
+                }
+                return maximo;
+            }
+            else
+            {
+                int minimo = nosSucessores.First<No>().GetUtilidade();
+                foreach (No n in nosSucessores)
+                {
+                    if (n.GetUtilidade() < minimo)
+                        minimo = n.GetUtilidade();
+                }
+                return minimo;
+            }
         }
 
-        
+        public bool eTerminal(No no,string vencedor)
+        {
+            if (VerificaTabuleiroCheio(no.GetEstado()))
+            {
+                VerificaVencedor(no.GetEstado(), vencedor);
+                return true;
+            }
+            if (VerificaVencedor(no.GetEstado(), vencedor))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public bool VerificaTabuleiroCheio(string[,] estado)
+        {
+            for(int i = 0; i < 3; i++)
+            {
+                for(int j = 0; j < 3; j++)
+                {
+                    if (estado[i, j] == null)
+                        return false;
+                }
+            }
+            return true;
+        }
         public static bool VerificaVencedor(string[,] matriz, string vencedor)
         {
             bool Vencedor = false;
