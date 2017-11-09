@@ -17,26 +17,26 @@ namespace MiniMax
             no = new No(estadoInicial);
             this.min = min;
             this.max = max;
+            movimentos = new List<Tuple<int, int, string>>();
+            movimentos.Add(new Tuple<int, int, string>(0, 0, "X"));
+            movimentos.Add(new Tuple<int, int, string>(0, 1, "X"));
+            movimentos.Add(new Tuple<int, int, string>(0, 2, "X"));
+            movimentos.Add(new Tuple<int, int, string>(1, 0, "X"));
+            movimentos.Add(new Tuple<int, int, string>(1, 1, "X"));
+            movimentos.Add(new Tuple<int, int, string>(1, 2, "X"));
+            movimentos.Add(new Tuple<int, int, string>(2, 0, "X"));
+            movimentos.Add(new Tuple<int, int, string>(2, 1, "X"));
+            movimentos.Add(new Tuple<int, int, string>(2, 2, "X"));
 
-            movimentos.Add(new Tuple<int, int, string>(0, 0, "x"));
-            movimentos.Add(new Tuple<int, int, string>(0, 1, "x"));
-            movimentos.Add(new Tuple<int, int, string>(0, 2, "x"));
-            movimentos.Add(new Tuple<int, int, string>(1, 0, "x"));
-            movimentos.Add(new Tuple<int, int, string>(1, 1, "x"));
-            movimentos.Add(new Tuple<int, int, string>(1, 2, "x"));
-            movimentos.Add(new Tuple<int, int, string>(2, 0, "x"));
-            movimentos.Add(new Tuple<int, int, string>(2, 1, "x"));
-            movimentos.Add(new Tuple<int, int, string>(2, 2, "x"));
-
-            movimentos.Add(new Tuple<int, int, string>(0, 0, "o"));
-            movimentos.Add(new Tuple<int, int, string>(0, 1, "o"));
-            movimentos.Add(new Tuple<int, int, string>(0, 2, "o"));
-            movimentos.Add(new Tuple<int, int, string>(1, 0, "o"));
-            movimentos.Add(new Tuple<int, int, string>(1, 1, "o"));
-            movimentos.Add(new Tuple<int, int, string>(1, 2, "o"));
-            movimentos.Add(new Tuple<int, int, string>(2, 0, "o"));
-            movimentos.Add(new Tuple<int, int, string>(2, 1, "o"));
-            movimentos.Add(new Tuple<int, int, string>(2, 2, "o"));
+            movimentos.Add(new Tuple<int, int, string>(0, 0, "O"));
+            movimentos.Add(new Tuple<int, int, string>(0, 1, "O"));
+            movimentos.Add(new Tuple<int, int, string>(0, 2, "O"));
+            movimentos.Add(new Tuple<int, int, string>(1, 0, "O"));
+            movimentos.Add(new Tuple<int, int, string>(1, 1, "O"));
+            movimentos.Add(new Tuple<int, int, string>(1, 2, "O"));
+            movimentos.Add(new Tuple<int, int, string>(2, 0, "O"));
+            movimentos.Add(new Tuple<int, int, string>(2, 1, "O"));
+            movimentos.Add(new Tuple<int, int, string>(2, 2, "O"));
         }
 
         public List<No> GeraNosSucessores(No no, List<Tuple<int, int, string>> sucessores)
@@ -88,9 +88,9 @@ namespace MiniMax
             //Se for terminal retorna utilidade
             if (eTerminal(no, vencedor))
             {
-                if (vencedor.Equals("X"))
+                if (vencedor != null && vencedor.Equals("X"))
                     return 1;
-                if (vencedor.Equals("O"))
+                if (vencedor != null && vencedor.Equals("O"))
                     return -1;
                 return 0;
             }
@@ -162,10 +162,10 @@ namespace MiniMax
                 contO = 0;
                 for (int j = 0; j < matriz.GetLength(1); j++)
                 {
-                    if (matriz[i, j].Equals("X"))
+                    if (matriz[i,j] != null && matriz[i, j].Equals("X"))
                         contX++;
 
-                    if (matriz[i, j].Equals("O"))
+                    if (matriz[i, j] != null && matriz[i, j].Equals("O"))
                         contO++;
 
                     if (contX == 3)
@@ -192,10 +192,10 @@ namespace MiniMax
                 contO = 0;
                 for (int j = 0; j < matriz.GetLength(0); j++)
                 {
-                    if (matriz[j, i].Equals("X"))
+                    if (matriz[i, j] != null && matriz[j, i].Equals("X"))
                         contX++;
 
-                    if (matriz[j, i].Equals("O"))
+                    if (matriz[i, j] != null && matriz[j, i].Equals("O"))
                         contO++;
 
                     if (contX == 3)
@@ -213,13 +213,13 @@ namespace MiniMax
                 }
             }
             //verifica diagonal
-            if (matriz[0, 0] == matriz[1, 1] && matriz[0, 0] == matriz[2, 2])
+            if (matriz[0, 0] != null && matriz[0, 0] == matriz[1, 1] && matriz[0, 0] == matriz[2, 2])
             {
                 vencedor = matriz[0, 0];
                 return true;
             }
 
-            else if (matriz[0, 2] == matriz[1, 2] && matriz[0, 2] == matriz[2, 1])
+            else if (matriz[0, 0] != null && matriz[0, 2] == matriz[1, 2] && matriz[0, 2] == matriz[2, 1])
             {
                 vencedor = matriz[0, 2];
                 return true;
