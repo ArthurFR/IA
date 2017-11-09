@@ -11,7 +11,7 @@ namespace MiniMax
         static void Main(string[] args)
         {
             string[,] inicial = new string[3,3];
-            Jogo jogo = new Jogo(inicial);
+            Jogo jogo = new Jogo(inicial, "o", "x");
 
 
             System.Console.ReadLine();

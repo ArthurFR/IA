@@ -9,11 +9,26 @@ namespace MiniMax
     class No
     {
         string[,] estado;
-        int minimax;
+        int utilidade;
 
-        public void setEstado(string[,] estado)
+        public void SetEstado(string[,] estado)
         {
             this.estado = estado;
+        }
+
+        public string[,] GetEstado()
+        {
+            return this.estado;
+        }
+
+        public bool eTerminal(string[,] estado)
+        {
+            return true;
+        }
+
+        public void setUtilidade(int utilidade)
+        {
+            this.utilidade = utilidade;
         }
     }
 }
