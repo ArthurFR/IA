@@ -51,12 +51,12 @@ namespace MiniMax
             return nosSucessores;
         }
 
-        public List<Tuple<int,int,string>> Sucessores(string[,] estado)
+        public List<Tuple<int,int,string>> Sucessores(No no)
         {
             List<Tuple<int, int, string>> sucessores = new List<Tuple<int, int, string>>();
             foreach(Tuple<int, int, string> t in movimentos)
             {
-                if (MovimentoValido(t, estado))
+                if (MovimentoValido(t, no))
                 {
                     sucessores.Add(t);
                 }
@@ -71,9 +71,18 @@ namespace MiniMax
             return novoEstado;
         }
 
-        public bool MovimentoValido(Tuple<int,int, string> movimento, string[,] estado)
+        public bool MovimentoValido(Tuple<int,int, string> movimento, No no)
         {
-            if (estado[movimento.Item1, movimento.Item2] == null)
+            if (no.getMax())
+            {
+                if (movimento.Item3.Equals("X"))
+                    return false;
+            }else
+            {
+                if (movimento.Item3.Equals("O"))
+                    return false;
+            }
+            if (no.GetEstado()[movimento.Item1, movimento.Item2] == null)
                 return true;
             return false;
         }
@@ -95,7 +104,7 @@ namespace MiniMax
                 return 0;
             }
 
-            movimentosValidos = Sucessores(no.GetEstado());
+            movimentosValidos = Sucessores(no);
             nosSucessores = GeraNosSucessores(no,movimentosValidos);
             foreach (No n in nosSucessores)
             {
@@ -192,10 +201,10 @@ namespace MiniMax
                 contO = 0;
                 for (int j = 0; j < matriz.GetLength(0); j++)
                 {
-                    if (matriz[i, j] != null && matriz[j, i].Equals("X"))
+                    if (matriz[j, i] != null && matriz[j, i].Equals("X"))
                         contX++;
 
-                    if (matriz[i, j] != null && matriz[j, i].Equals("O"))
+                    if (matriz[j, i] != null && matriz[j, i].Equals("O"))
                         contO++;
 
                     if (contX == 3)
@@ -219,7 +228,7 @@ namespace MiniMax
                 return true;
             }
 
-            else if (matriz[0, 0] != null && matriz[0, 2] == matriz[1, 2] && matriz[0, 2] == matriz[2, 1])
+            else if (matriz[0, 2] != null && matriz[0, 2] == matriz[1, 2] && matriz[0, 2] == matriz[2, 1])
             {
                 vencedor = matriz[0, 2];
                 return true;
