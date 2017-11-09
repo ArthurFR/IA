@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MiniMax.Jogo
+namespace MiniMax
 {
     class Jogo
     {
@@ -12,13 +12,15 @@ namespace MiniMax.Jogo
 
         public Jogo(string[,] estadoInicial)
         {
+            no = new No();
             this.no.setEstado(estadoInicial);
         }
 
         public string[,] Sucessor(string[,] estado, Tuple<int, int, string> acao)
         {
-
-            return null;
+            string[,] sucessor = (string[,])estado.Clone();
+            sucessor[acao.Item1, acao.Item2] = acao.Item3;
+            return sucessor;
         }
     }
 }

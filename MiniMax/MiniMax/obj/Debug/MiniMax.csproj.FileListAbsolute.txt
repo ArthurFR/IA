@@ -1,1 +1,6 @@
 C:\Users\Arthur\Documents\repos\IA\MiniMax\MiniMax\bin\Debug\MiniMax.exe.config
+C:\Users\Arthur\Documents\repos\IA\MiniMax\MiniMax\bin\Debug\MiniMax.exe
+C:\Users\Arthur\Documents\repos\IA\MiniMax\MiniMax\bin\Debug\MiniMax.pdb
+C:\Users\Arthur\Documents\repos\IA\MiniMax\MiniMax\obj\Debug\MiniMax.csprojResolveAssemblyReference.cache
+C:\Users\Arthur\Documents\repos\IA\MiniMax\MiniMax\obj\Debug\MiniMax.exe
+C:\Users\Arthur\Documents\repos\IA\MiniMax\MiniMax\obj\Debug\MiniMax.pdb
