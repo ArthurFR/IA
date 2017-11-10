@@ -21,9 +21,7 @@ namespace MiniMax
             //filho[2, 0] = "X";
             //filho[2, 1] = "O";
 
-            jogo.ExibeMatriz(filho);
             No no = new No(new No(inicial), filho, true);
-            jogo.ExibeMatriz(no.GetEstado());
             Console.WriteLine(jogo.MinMax(no));
             jogo.NumeroFilhos(no);
             jogo.ImprimeJogo(no);
