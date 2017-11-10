@@ -41,7 +41,7 @@ namespace MiniMax
 
         public List<No> GeraNosSucessores(No no, List<Tuple<int, int, string>> sucessores)
         {
-            List < No > nosSucessores = new List<No>();
+            List <No> nosSucessores = new List<No>();
 
             foreach(Tuple<int, int, string> m in sucessores)
             {
@@ -90,7 +90,7 @@ namespace MiniMax
 
         public int MinMax(No no)
         {
-            string vencedor = null;
+            Vencedor vencedor = new Vencedor();
             No filho;
 
             List<Tuple<int, int, string>> movimentosValidos;
@@ -99,55 +99,49 @@ namespace MiniMax
             //Se for terminal retorna utilidade
             if (eTerminal(no, vencedor))
             {
-                if (vencedor != null && vencedor.Equals("X"))
+                if (vencedor.GetVencedor() != null && vencedor.GetVencedor().Equals("X"))
                     return 1;
-                if (vencedor != null && vencedor.Equals("O"))
+                if (vencedor.GetVencedor() != null && vencedor.GetVencedor().Equals("O"))
                     return -1;
                 return 0;
             }
 
             movimentosValidos = Sucessores(no);
             nosSucessores = GeraNosSucessores(no,movimentosValidos);
+            
             foreach (No n in nosSucessores)
             {
                 n.setUtilidade(MinMax(n));
+                no.AddFilho(n);
             }
-            if (no.getMax())
+
+            filho = nosSucessores.First<No>();
+            int maxmin = filho.GetUtilidade();
+            foreach (No n in no.GetFilhos())
             {
-                int maximo = nosSucessores.First<No>().GetUtilidade();
-                filho = nosSucessores.First<No>();
-                foreach (No n in nosSucessores)
+                if (!no.getMax())
                 {
-                    no.AddFilho(n);
-                    if (n.GetUtilidade() > maximo)
+                    if (n.GetUtilidade() > maxmin)
                     {
-                        maximo = n.GetUtilidade();
+                        maxmin = n.GetUtilidade();
                         filho = n;
                     }
-                        
                 }
-                no.SetFilho(filho);
-                return maximo;
-            }
-            else
-            {
-                int minimo = nosSucessores.First<No>().GetUtilidade();
-                filho = nosSucessores.First<No>();
-                foreach (No n in nosSucessores)
+                else
                 {
-                    if (n.GetUtilidade() < minimo)
+                    if (n.GetUtilidade() < maxmin)
                     {
-                        minimo = n.GetUtilidade();
+                        maxmin = n.GetUtilidade();
                         filho = n;
                     }
-                        
                 }
-                no.SetFilho(filho);
-                return minimo;
             }
+            
+            no.SetFilho(filho);
+            return maxmin;
         }
 
-        public bool eTerminal(No no,string vencedor)
+        public bool eTerminal(No no,Vencedor vencedor)
         {
             if (VerificaTabuleiroCheio(no.GetEstado()))
             {
@@ -173,9 +167,8 @@ namespace MiniMax
             }
             return true;
         }
-        public static bool VerificaVencedor(string[,] matriz, string vencedor)
+        public static bool VerificaVencedor(string[,] matriz, Vencedor vencedor)
         {
-            bool Vencedor = false;
             int contX = 0;
             int contO = 0;
             
@@ -194,13 +187,13 @@ namespace MiniMax
 
                     if (contX == 3)
                     {
-                        vencedor = "X";
+                        vencedor.SetVencedor("X");
                         return true;
                     }
 
                     if (contO == 3)
                     {
-                        vencedor = "O";
+                        vencedor.SetVencedor("O");
                         return true;
                     }
                         
@@ -224,13 +217,13 @@ namespace MiniMax
 
                     if (contX == 3)
                     {
-                        vencedor = "X";
+                        vencedor.SetVencedor("X");
                         return true;
                     }
 
                     if (contO == 3)
                     {
-                        vencedor = "O";
+                        vencedor.SetVencedor("O");
                         return true;
                     }
 
@@ -239,13 +232,13 @@ namespace MiniMax
             //verifica diagonal
             if (matriz[0, 0] != null && matriz[0, 0] == matriz[1, 1] && matriz[0, 0] == matriz[2, 2])
             {
-                vencedor = matriz[0, 0];
+                vencedor.SetVencedor(matriz[0, 0]);
                 return true;
             }
 
-            else if (matriz[0, 2] != null && matriz[0, 2] == matriz[1, 2] && matriz[0, 2] == matriz[2, 1])
+            else if (matriz[0, 2] != null && matriz[0, 2] == matriz[1, 1] && matriz[0, 2] == matriz[2, 0])
             {
-                vencedor = matriz[0, 2];
+                vencedor.SetVencedor(matriz[0, 2]);
                 return true;
             }
 
@@ -258,12 +251,12 @@ namespace MiniMax
             {
                 for (int j = 0; j < matriz.GetLength(0); j++)
                 {
-                    if (matriz[j,i] == null)
+                    if (matriz[i,j] == null)
                     {
                         Console.Write(" ");
                     }else
                     {
-                        Console.Write(matriz[j, i]);
+                        Console.Write(matriz[i, j]);
                     }
                     if(j<2)
                         Console.Write("|");
@@ -271,14 +264,54 @@ namespace MiniMax
                 Console.WriteLine();
             }
         }
+        public void ExibeMatriz2(string[,] matriz)
+        {
+            for (int i = 0; i < matriz.GetLength(1); i++)
+            {
+                for (int j = 0; j < matriz.GetLength(0); j++)
+                {
+                    if (matriz[j, i] == null)
+                    {
+                        Console.Write(" ");
+                    }
+                    else
+                    {
+                        Console.Write(matriz[j, i]);
+                    }
+                    if (j < 2)
+                        Console.Write("|");
+                }
+                Console.WriteLine();
+            }
+        }
         public void ImprimeJogo(No no)
         {
+            Console.WriteLine(no.GetUtilidade() + no.getMax().ToString());
+            ExibeMatriz(no.GetEstado());
             if (no.GetFilho() == null)
                 return;
-
-            ExibeMatriz(no.GetEstado());
-            Console.WriteLine(no.GetUtilidade());
+            
             ImprimeJogo(no.GetFilho());
+        }
+        public void NumeroFilhos(No no)
+        {
+            if (no.GetFilho() == null)
+            {
+                Console.Write("No: 0");
+                Console.WriteLine("Proxima " + no.GetUtilidade());
+                
+                return;
+            }
+                
+            int i = 0;
+            Console.Write("No: ");
+            foreach (No n in no.GetFilhos())
+            {
+                i++;
+            }
+            Console.Write(i);
+            Console.WriteLine("Proxima " + no.GetUtilidade());
+            NumeroFilhos(no.GetFilho());
         }
 
     }

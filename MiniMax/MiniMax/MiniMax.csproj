@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="Jogo\Jogo.cs" />
     <Compile Include="Jogo\No.cs" />
+    <Compile Include="Jogo\Vencedor.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
