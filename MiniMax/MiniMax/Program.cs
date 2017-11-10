@@ -21,10 +21,13 @@ namespace MiniMax
             //filho[2, 0] = "X";
             //filho[2, 1] = "O";
 
-            No no = new No(new No(inicial), filho, true);
-            Console.WriteLine(jogo.MinMax(no));
+            No no = new No(new No(inicial), filho, false);
+            //jogo.MinMax(no);
+            //jogo.MinMax2(no, -1000, 1000);
+            jogo.MinMaxPoda(no, -1000, 1000);
             jogo.NumeroFilhos(no);
             jogo.ImprimeJogo(no);
+            Console.WriteLine("Nós visitados: " + jogo.GetNosVisitados());
             //foreach(No n in no.GetFilhos())
             //{
             //    Console.WriteLine(n.GetUtilidade());

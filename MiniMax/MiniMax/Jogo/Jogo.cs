@@ -10,6 +10,7 @@ namespace MiniMax
     {
         No no;
         string min, max;
+        int nosVerificados;
         List<Tuple<int, int, string>> movimentos;
 
         public Jogo(string[,] estadoInicial, string min, string max)
@@ -17,6 +18,7 @@ namespace MiniMax
             no = new No(estadoInicial);
             this.min = min;
             this.max = max;
+            this.nosVerificados = 0;
             movimentos = new List<Tuple<int, int, string>>();
             movimentos.Add(new Tuple<int, int, string>(0, 0, "X"));
             movimentos.Add(new Tuple<int, int, string>(0, 1, "X"));
@@ -37,6 +39,10 @@ namespace MiniMax
             movimentos.Add(new Tuple<int, int, string>(2, 0, "O"));
             movimentos.Add(new Tuple<int, int, string>(2, 1, "O"));
             movimentos.Add(new Tuple<int, int, string>(2, 2, "O"));
+        }
+        public int GetNosVisitados()
+        {
+            return this.nosVerificados;
         }
 
         public List<No> GeraNosSucessores(No no, List<Tuple<int, int, string>> sucessores)
@@ -100,9 +106,9 @@ namespace MiniMax
             if (eTerminal(no, vencedor))
             {
                 if (vencedor.GetVencedor() != null && vencedor.GetVencedor().Equals("X"))
-                    return 1;
+                    return (1 + GetNumVazio(no)); ;
                 if (vencedor.GetVencedor() != null && vencedor.GetVencedor().Equals("O"))
-                    return -1;
+                    return (-1 - GetNumVazio(no));
                 return 0;
             }
 
@@ -119,6 +125,7 @@ namespace MiniMax
             int maxmin = filho.GetUtilidade();
             foreach (No n in no.GetFilhos())
             {
+                nosVerificados++;
                 if (!no.getMax())
                 {
                     if (n.GetUtilidade() > maxmin)
@@ -139,6 +146,142 @@ namespace MiniMax
             
             no.SetFilho(filho);
             return maxmin;
+        }
+
+        public int MinMax2(No no, int alfa, int beta)
+        {
+            Vencedor vencedor = new Vencedor();
+            No filho = null;
+            List<Tuple<int, int, string>> movimentosValidos;
+            List<No> nosSucessores;
+            //Se for terminal retorna utilidade
+            if (eTerminal(no, vencedor))
+            {
+                if (vencedor.GetVencedor() != null && vencedor.GetVencedor().Equals("X"))
+                    return (1 + GetNumVazio(no));
+                if (vencedor.GetVencedor() != null && vencedor.GetVencedor().Equals("O"))
+                    return (-1 - GetNumVazio(no));
+                return 0;
+            }
+            movimentosValidos = Sucessores(no);
+            nosSucessores = GeraNosSucessores(no, movimentosValidos);
+            foreach (No n in nosSucessores)
+            {
+                no.AddFilho(n);
+            }
+            int maxmin;
+            if (!no.getMax())
+            {
+                maxmin = -100;
+                foreach (No n in no.GetFilhos())
+                {
+                    nosVerificados++;
+                    n.setUtilidade(MinMax2(n, alfa, beta));
+                    if (maxmin < n.GetUtilidade())
+                    {
+                        maxmin = n.GetUtilidade();
+                        filho = n;
+                    }
+                    if (alfa < maxmin)
+                        alfa = maxmin;
+                }
+
+            }
+            else
+            {
+                maxmin = 100;
+                foreach (No n in no.GetFilhos())
+                {
+                    nosVerificados++;
+                    n.setUtilidade(MinMax2(n, alfa, beta));
+                    if (maxmin > n.GetUtilidade())
+                    {
+                        maxmin = n.GetUtilidade();
+                        filho = n;
+                    }
+
+                    if (beta > maxmin)
+                        beta = maxmin;
+                }
+            }
+            no.SetFilho(filho);
+            return maxmin;
+        }
+        public int MinMaxPoda(No no, int alfa, int beta)
+        {
+            Vencedor vencedor = new Vencedor();
+            No filho = null;
+            List<Tuple<int, int, string>> movimentosValidos;
+            List<No> nosSucessores;
+            //Se for terminal retorna utilidade
+            if (eTerminal(no, vencedor))
+            {
+                if (vencedor.GetVencedor() != null && vencedor.GetVencedor().Equals("X"))
+                    return (1 + GetNumVazio(no));
+                if (vencedor.GetVencedor() != null && vencedor.GetVencedor().Equals("O"))
+                    return (-1 - GetNumVazio(no)); 
+                return 0;
+            }
+            movimentosValidos = Sucessores(no);
+            nosSucessores = GeraNosSucessores(no, movimentosValidos);
+            foreach (No n in nosSucessores)
+            {
+                no.AddFilho(n);
+            }
+            int maxmin;
+            if (!no.getMax())
+            {
+                maxmin = -100;
+                foreach (No n in no.GetFilhos())
+                {
+                    nosVerificados++;
+                    n.setUtilidade(MinMaxPoda(n, alfa, beta));
+                    if (maxmin < n.GetUtilidade())
+                    {
+                        maxmin = n.GetUtilidade();
+                        filho = n;
+                    }
+                    if (alfa < maxmin)
+                        alfa = maxmin;
+                    if (beta <= alfa)
+                        break;
+                }
+            }
+            else
+            {
+                maxmin = 100;
+                foreach (No n in no.GetFilhos())
+                {
+                    nosVerificados++;
+                    n.setUtilidade(MinMaxPoda(n, alfa, beta));
+                    if (maxmin > n.GetUtilidade())
+                    {
+                        maxmin = n.GetUtilidade();
+                        filho = n;
+                    }
+                    if (beta > maxmin)
+                        beta = maxmin;
+                    if (beta <= alfa)
+                        break;
+                }
+            }
+            no.SetFilho(filho);
+            return maxmin;
+        }
+
+        public int GetNumVazio(No no)
+        {
+            int count = 0;
+            string[,] matriz = no.GetEstado();
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    if (matriz[i, j] == null)
+                        count++;
+                }
+            }
+            return count;
         }
 
         public bool eTerminal(No no,Vencedor vencedor)
