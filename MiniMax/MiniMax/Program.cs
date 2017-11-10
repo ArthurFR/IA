@@ -17,9 +17,15 @@ namespace MiniMax
             No no = new No(new No(inicial), filho, true);
             
             Console.WriteLine(jogo.MinMax(no));
+            jogo.ImprimeJogo(no);
+
+            //foreach(No n in no.GetFilhos())
+            //{
+            //    Console.WriteLine(n.GetUtilidade());
+            //    jogo.ExibeMatriz(n.GetEstado());
+            //}
             //MiniMax.Jogo.ExibeMatriz(matriz); //Se for usar mudar para string.
             System.Console.ReadLine();
         }
-        
     }
 }

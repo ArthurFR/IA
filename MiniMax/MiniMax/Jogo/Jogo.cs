@@ -91,6 +91,8 @@ namespace MiniMax
         public int MinMax(No no)
         {
             string vencedor = null;
+            No filho;
+
             List<Tuple<int, int, string>> movimentosValidos;
             List<No> nosSucessores;
 
@@ -113,21 +115,34 @@ namespace MiniMax
             if (no.getMax())
             {
                 int maximo = nosSucessores.First<No>().GetUtilidade();
+                filho = nosSucessores.First<No>();
                 foreach (No n in nosSucessores)
                 {
+                    no.AddFilho(n);
                     if (n.GetUtilidade() > maximo)
+                    {
                         maximo = n.GetUtilidade();
+                        filho = n;
+                    }
+                        
                 }
+                no.SetFilho(filho);
                 return maximo;
             }
             else
             {
                 int minimo = nosSucessores.First<No>().GetUtilidade();
+                filho = nosSucessores.First<No>();
                 foreach (No n in nosSucessores)
                 {
                     if (n.GetUtilidade() < minimo)
+                    {
                         minimo = n.GetUtilidade();
+                        filho = n;
+                    }
+                        
                 }
+                no.SetFilho(filho);
                 return minimo;
             }
         }
@@ -237,16 +252,33 @@ namespace MiniMax
             return false;
         }
 
-        public static void ExibeMatriz(int[,] matriz)
+        public void ExibeMatriz(string[,] matriz)
         {
             for (int i = 0; i < matriz.GetLength(1); i++)
             {
                 for (int j = 0; j < matriz.GetLength(0); j++)
                 {
-                    Console.Write(matriz[j, i]);
+                    if (matriz[j,i] == null)
+                    {
+                        Console.Write(" ");
+                    }else
+                    {
+                        Console.Write(matriz[j, i]);
+                    }
+                    if(j<2)
+                        Console.Write("|");
                 }
                 Console.WriteLine();
             }
+        }
+        public void ImprimeJogo(No no)
+        {
+            if (no.GetFilho() == null)
+                return;
+
+            ExibeMatriz(no.GetEstado());
+            Console.WriteLine(no.GetUtilidade());
+            ImprimeJogo(no.GetFilho());
         }
 
     }
