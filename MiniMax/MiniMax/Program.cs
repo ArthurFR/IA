@@ -13,8 +13,8 @@ namespace MiniMax
             string[,] inicial = new string[3,3];
             string[,] filho = new string[3, 3];
             Jogo jogo = new Jogo(inicial, "o", "x");
-            //filho[0, 0] = "X";
-            //filho[0, 1] = "O";
+            filho[0, 0] = "X";
+            filho[0, 1] = "O";
             //filho[0, 2] = "X";
             //filho[1, 0] = "O";
             //filho[1, 2] = "X";
@@ -22,9 +22,9 @@ namespace MiniMax
             //filho[2, 1] = "O";
 
             No no = new No(new No(inicial), filho, false);
-            //jogo.MinMax(no);
+            jogo.MinMax(no);
             //jogo.MinMax2(no, -1000, 1000);
-            jogo.MinMaxPoda(no, -1000, 1000);
+            //jogo.MinMaxPoda(no, -1000, 1000);
             jogo.NumeroFilhos(no);
             jogo.ImprimeJogo(no);
             Console.WriteLine("Nós visitados: " + jogo.GetNosVisitados());
